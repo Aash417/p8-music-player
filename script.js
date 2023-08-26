@@ -1,7 +1,31 @@
+const image = document.querySelector('img');
+const title = document.querySelector('#title');
+const artist = document.querySelector('#artist');
+
 const music = document.querySelector('audio');
 const prevBtn = document.querySelector('#prev');
 const playBtn = document.querySelector('#play');
 const nextBtn = document.querySelector('#next');
+
+let songIndex = 0;
+// Music
+const songs = [
+  {
+    name: 'song-1',
+    displayName: 'Sultan',
+    artist: 'Prashanth Neel',
+  },
+  {
+    name: 'song-2',
+    displayName: 'Kaal Bhairav Ashtakam',
+    artist: 'Agam',
+  },
+  {
+    name: 'song-3',
+    displayName: 'Counting Star',
+    artist: 'One',
+  },
+];
 
 // Check if playing
 let isPlaying = false;
@@ -22,8 +46,39 @@ function pauseSong() {
   music.pause();
 }
 
+//Update DOM
+function loadSong(song) {
+  title.textContent = song.displayName;
+  artist.textContent = song.artist;
+  music.src = `music/${song.name}.mp3`;
+  image.src = `img/${song.name}.jpg`;
+}
+// Next Song
+function nextSong() {
+  songIndex++;
+  if (songIndex > songs.length - 1) songIndex = 0;
+  console.log(songIndex);
+  loadSong(songs[songIndex]);
+  playSong();
+}
+
+// Prev Song
+function prevSong() {
+  songIndex--;
+  if (songIndex < 0) songIndex = songs.length - 1;
+
+  console.log(songIndex);
+
+  loadSong(songs[songIndex]);
+  playSong();
+}
+
+// On load select first song
+loadSong(songs[songIndex]);
+
 // Play & Pause event listener
 playBtn.addEventListener('click', () => {
-  console.log(6);
   isPlaying ? pauseSong() : playSong();
 });
+prevBtn.addEventListener('click', prevSong);
+nextBtn.addEventListener('click', nextSong);
