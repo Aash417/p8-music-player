@@ -63,7 +63,7 @@ function loadSong(song) {
 function nextSong() {
   songIndex++;
   if (songIndex > songs.length - 1) songIndex = 0;
-  console.log(songIndex);
+  //   console.log(songIndex);
   loadSong(songs[songIndex]);
   playSong();
 }
@@ -73,7 +73,7 @@ function prevSong() {
   songIndex--;
   if (songIndex < 0) songIndex = songs.length - 1;
 
-  console.log(songIndex);
+  //   console.log(songIndex);
 
   loadSong(songs[songIndex]);
   playSong();
@@ -111,6 +111,20 @@ function updateProgressBar(event) {
   }
 }
 
+// Seting progress bar manualy
+function setProgressBar(e) {
+  const width = this.clientWidth;
+  const clickX = e.offsetX;
+
+  const { duration } = music;
+
+  //   console.log(clickX / width);
+  //   console.log((clickX / width) * duration);
+
+  //   Current time% to play on the song
+  music.currentTime = (clickX / width) * duration;
+}
+
 // Play & Pause event listener
 playBtn.addEventListener('click', () => {
   isPlaying ? pauseSong() : playSong();
@@ -118,3 +132,5 @@ playBtn.addEventListener('click', () => {
 prevBtn.addEventListener('click', prevSong);
 nextBtn.addEventListener('click', nextSong);
 music.addEventListener('timeupdate', updateProgressBar);
+progresscontainer.addEventListener('click', setProgressBar);
+music.addEventListener('ended', nextSong);
